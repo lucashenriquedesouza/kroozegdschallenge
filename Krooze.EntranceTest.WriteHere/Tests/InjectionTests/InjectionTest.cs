@@ -3,6 +3,7 @@ using Krooze.EntranceTest.WriteHere.Structure.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Krooze.EntranceTest.WriteHere.Tests.InjectionTests
 {
@@ -15,11 +16,12 @@ namespace Krooze.EntranceTest.WriteHere.Tests.InjectionTests
             //Make sure that the correct class is injected based on the CruiseCompanyCode on the request
             //without directly referencing the 3 classes and the method GetCruises of the chosen implementation is called
 
-            var types = AppDomain
-                        .CurrentDomain
-                        .GetAssemblies()
-                        .SelectMany(s => s.GetTypes())
-                        .Where(p => typeof(IGetCruise).IsAssignableFrom(p) && !p.IsInterface)
+            var types = Assembly
+                        .GetAssembly(typeof(IGetCruise))
+                        .GetTypes()
+                        .Where(t => t.IsClass 
+                                && !t.IsAbstract 
+                                && t.GetInterfaces().Contains(typeof(IGetCruise)))
                         .ToList();
 
             foreach (var t in types)
