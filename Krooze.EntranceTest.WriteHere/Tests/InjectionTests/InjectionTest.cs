@@ -16,7 +16,8 @@ namespace Krooze.EntranceTest.WriteHere.Tests.InjectionTests
             //without directly referencing the 3 classes and the method GetCruises of the chosen implementation is called
 
             var types = AppDomain
-                        .CurrentDomain.GetAssemblies()
+                        .CurrentDomain
+                        .GetAssemblies()
                         .SelectMany(s => s.GetTypes())
                         .Where(p => typeof(IGetCruise).IsAssignableFrom(p) && !p.IsInterface)
                         .ToList();
