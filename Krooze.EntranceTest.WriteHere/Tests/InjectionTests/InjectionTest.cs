@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Krooze.EntranceTest.WriteHere.Structure.Interfaces;
 using Krooze.EntranceTest.WriteHere.Structure.Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Krooze.EntranceTest.WriteHere.Tests.InjectionTests
 {
@@ -11,7 +14,27 @@ namespace Krooze.EntranceTest.WriteHere.Tests.InjectionTests
             //There is an interface (IGetCruise) that is implemented by 3 classes (Company1, Company2 and Company3)
             //Make sure that the correct class is injected based on the CruiseCompanyCode on the request
             //without directly referencing the 3 classes and the method GetCruises of the chosen implementation is called
-            return null;
+
+            var types = AppDomain
+                        .CurrentDomain.GetAssemblies()
+                        .SelectMany(s => s.GetTypes())
+                        .Where(p => typeof(IGetCruise).IsAssignableFrom(p) && !p.IsInterface)
+                        .ToList();
+
+            foreach (var t in types)
+            {
+
+                IGetCruise cruise = Activator.CreateInstance(t) as IGetCruise;
+
+                if (cruise != null && request.CruiseCompanyCode == cruise.CruiseCompanyCode)
+                    return cruise.GetCruises(request);
+
+            }
+
+            throw new Exception($"CruiseCompanyCode {request.CruiseCompanyCode.ToString()} does not exists.");
+
         }
+
     }
+
 }
