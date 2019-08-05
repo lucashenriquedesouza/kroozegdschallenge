@@ -42,3 +42,6 @@ Seu projeto será avaliado de acordo com os seguintes critérios:
  - [.NET Core 2.2](https://dotnet.microsoft.com/download/visual-studio-sdks?utm_source=getdotnetsdk&utm_medium=referral)
  - [.NET Core 2.0](https://dotnet.microsoft.com/download/visual-studio-sdks?utm_source=getdotnetsdk&utm_medium=referral)
  - [Visual Studio 2017 ou 2019](https://visualstudio.microsoft.com/pt-br/downloads/)
+
+ ## Dcoumentação gerada pelo Swagger:
+ - http://localhost:60467/swagger/index.html
