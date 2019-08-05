@@ -40,7 +40,7 @@ namespace Krooze.EntranceTest.Web.Controllers
             });
         }
 
-        [HttpGet("GetInstallments/{fullPrice:decimal}")]
+        [HttpGet("GetInstallments/FullPrice={fullPrice:decimal}")]
         public int? GetInstallments(decimal fullPrice)
         {
             return new SimpleLogicTest().GetInstallments(fullPrice);
@@ -58,7 +58,7 @@ namespace Krooze.EntranceTest.Web.Controllers
             return new WebTest().GetDirector();
         }
 
-        [HttpGet("GetCruises/{CruiseCode:int}")]
+        [HttpGet("GetCruises/CruiseCode={cruiseCode:int}")]
         public object GetCruises(int cruiseCode)
         {
             return new InjectionTest().GetCruises(new CruiseRequestDTO() { CruiseCompanyCode = cruiseCode });
