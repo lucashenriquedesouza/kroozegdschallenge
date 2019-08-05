@@ -7,7 +7,7 @@ namespace Krooze.EntranceTest.WriteHere.Structure.Implementations
     public class Company2 : IGetCruise
     {
         public int CruiseCompanyCode => 2;
-        public List<CruiseDTO> GetCruises(CruiseRequestDTO request)
+        public List<CruiseDTO> GetCruises(IRequest request)
         {
             return new List<CruiseDTO>()
             {

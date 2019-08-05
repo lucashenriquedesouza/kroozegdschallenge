@@ -7,6 +7,6 @@ namespace Krooze.EntranceTest.WriteHere.Structure.Interfaces
     {
         int CruiseCompanyCode { get; }
 
-        List<CruiseDTO> GetCruises(CruiseRequestDTO request);
+        List<CruiseDTO> GetCruises(IRequest request);
     }
 }

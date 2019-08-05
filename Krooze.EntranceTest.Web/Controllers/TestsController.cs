@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
-using Krooze.EntranceTest.WriteHere.Structure.Model;
+﻿using Krooze.EntranceTest.WriteHere.Structure.Model;
+using Krooze.EntranceTest.WriteHere.Tests.InjectionTests;
 using Krooze.EntranceTest.WriteHere.Tests.LogicTests;
+using Krooze.EntranceTest.WriteHere.Tests.WebTests;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace Krooze.EntranceTest.Web.Controllers
 {
@@ -16,22 +18,50 @@ namespace Krooze.EntranceTest.Web.Controllers
             return new XMLTest().TranslateXML();
         }
 
-        [HttpPost("OtherTaxes")]
-        public decimal? OtherTaxes(CruiseDTO cruise)
+        [HttpGet("OtherTaxes/TotalValue={totalValue:decimal}&CabinValue={cabinValue:decimal}&PortCharge={portCharge:decimal}")]
+        public decimal? OtherTaxes(decimal totalValue, decimal cabinValue, decimal portCharge)
         {
-            return new SimpleLogicTest().GetOtherTaxes(cruise);
+            return new SimpleLogicTest().GetOtherTaxes(new CruiseDTO() { TotalValue = totalValue, CabinValue = cabinValue, PortCharge = portCharge });
         }
 
-        [HttpPost("IsThereDiscount")]
-        public bool? IsThereDiscount(CruiseDTO cruise)
+        [HttpGet("IsThereDiscount/CabinValue1={cabinValue1:decimal}&CabinValue2={cabinValue2:decimal}")]
+        public bool? IsThereDiscount(decimal cabinValue1, decimal cabinValue2)
         {
-            return new SimpleLogicTest().IsThereDiscount(cruise);
+            return new SimpleLogicTest().IsThereDiscount(new CruiseDTO()
+            {
+                PassengerCruise = new List<PassengerCruiseDTO>()
+                {
+                    new PassengerCruiseDTO()
+                        {PassengerCode = "1", Cruise = new CruiseDTO() {CabinValue = cabinValue1}},
+                    new PassengerCruiseDTO()
+                        {PassengerCode = "2", Cruise = new CruiseDTO() {CabinValue = cabinValue2}},
+                },
+                CabinValue = cabinValue1 + cabinValue2
+            });
         }
 
-        [HttpGet("GetInstallments/{fullPrice}")]
+        [HttpGet("GetInstallments/{fullPrice:decimal}")]
         public int? GetInstallments(decimal fullPrice)
         {
-            return  new SimpleLogicTest().GetInstallments(fullPrice);
+            return new SimpleLogicTest().GetInstallments(fullPrice);
+        }
+
+        [HttpGet("GetAllMovies")]
+        public object GetAllMovies()
+        {
+            return new WebTest().GetAllMovies();
+        }
+
+        [HttpGet("GetDirector")]
+        public object GetDirector()
+        {
+            return new WebTest().GetDirector();
+        }
+
+        [HttpGet("GetCruises/{CruiseCode:int}")]
+        public object GetCruises(int cruiseCode)
+        {
+            return new InjectionTest().GetCruises(new CruiseRequestDTO() { CruiseCompanyCode = cruiseCode });
         }
 
     }
